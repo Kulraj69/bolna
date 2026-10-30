@@ -28,7 +28,10 @@ class Assistant:
         tools_config_args["output"] = {"format": "wav", "provider": "default"}
         if transcriber is None:
             pipelines.append(["llm"])
-            tools_config_args["transcriber"] = transcriber
+
+        # Always record the transcriber key (None or configured) so TaskManager
+        # setup can distinguish "no transcriber configured" from "key missing".
+        tools_config_args["transcriber"] = transcriber
 
         pipeline = ["transcriber", "llm"]
         if synthesizer is not None:
